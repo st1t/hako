@@ -45,6 +45,7 @@ module Hako
           # awsvpc network mode requires ELB target group with target_type=ip
           @ecs_elb_v2_options['target_type'] = 'ip'
         end
+        @service_registries = options.fetch('service_registries', nil)
         @dynamic_port_mapping = options.fetch('dynamic_port_mapping', @ecs_elb_options.nil?)
         @health_check_grace_period_seconds = options.fetch('health_check_grace_period_seconds') do
           @ecs_elb_options || @ecs_elb_v2_options ? 0 : nil
@@ -879,6 +880,7 @@ module Hako
           task_definition: task_definition_arn,
           role: @role,
           deployment_configuration: @deployment_configuration,
+          service_registries: @service_registries,
           placement_constraints: @placement_constraints,
           placement_strategy: @placement_strategy,
           scheduling_strategy: @scheduling_strategy,
